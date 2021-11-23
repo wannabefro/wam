@@ -1,3 +1,5 @@
+const { WorkerUrl } = require("worker-url");
+
 var isBrowser = typeof window !== "undefined";
 
 var CLOCK_DEFAULTS = {
@@ -147,7 +149,10 @@ WAAClock.prototype.start = function () {
         this._events = [];
 
         if (this.tickMethod === "ScriptProcessorNode") {
-            this.context.audioWorklet.addModule('./processor.js').then(() => {
+            const workletUrl = new WorkerUrl(new URL('./processor.js', import.meta.url), {
+                name: 'worklet',
+            });
+            this.context.audioWorklet.addModule(workletUrl).then(() => {
                 this._clockNode = new AudioWorkletNode(this.context, 'clock-processor');
                 this._clockNode.connect(this.context.destination);
                 this._clockNode.port.onmessage = () => {
