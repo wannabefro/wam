@@ -1,5 +1,4 @@
 var isBrowser = typeof window !== "undefined";
-import processor from './processor';
 
 var CLOCK_DEFAULTS = {
     toleranceLate: 0.1,
@@ -148,7 +147,7 @@ WAAClock.prototype.start = function () {
         this._events = [];
 
         if (this.tickMethod === "ScriptProcessorNode") {
-            this.context.audioWorklet.addModule(processor).then(() => {
+            this.context.audioWorklet.addModule('./processor.js').then(() => {
                 this._clockNode = new AudioWorkletNode(this.context, 'clock-processor');
                 this._clockNode.connect(this.context.destination);
                 this._clockNode.port.onmessage = () => {
