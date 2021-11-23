@@ -147,14 +147,15 @@ WAAClock.prototype.start = function () {
         this._events = [];
 
         if (this.tickMethod === "ScriptProcessorNode") {
+            setInterval(() => { self._tick(); }, 100);
             // We have to keep a reference to the node to avoid garbage collection
-            this.context.audioWorklet.addModule('processor.js').then(() => {
-                this._clockNode = new AudioWorkletNode(this.context, 'clock-processor');
-                this._clockNode.connect(this.context.destination);
-                this._clockNode.port.onmessage = () => {
-                    self._tick();
-                }
-            });
+            // this.context.audioWorklet.addModule('processor.js').then(() => {
+            //     this._clockNode = new AudioWorkletNode(this.context, 'clock-processor');
+            //     this._clockNode.connect(this.context.destination);
+            //     this._clockNode.port.onmessage = () => {
+            //         self._tick();
+            //     }
+            // });
         } else if (this.tickMethod === "manual") null;
         // _tick is called manually
         else throw new Error("invalid tickMethod " + this.tickMethod);
