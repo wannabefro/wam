@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import WAAClock from 'waaclock';
+import WAAClock from './vendor/WAAclock';
 import { BufferedPV } from './vendor/PhaseVocoder';
 
 import { calculateBPM } from './beatmatching';
