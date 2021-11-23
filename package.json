@@ -23,8 +23,5 @@
   "homepage": "https://github.com/danbovey/wam#readme",
   "devDependencies": {
     "babel-preset-es2015": "^6.22.0"
-  },
-  "dependencies": {
-    "waaclock": "^0.5.3"
   }
 }
