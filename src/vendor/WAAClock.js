@@ -149,16 +149,17 @@ WAAClock.prototype.start = function () {
         this._events = [];
 
         if (this.tickMethod === "ScriptProcessorNode") {
-            const workletUrl = new WorkerUrl(new URL('./processor.js', import.meta.url), {
-                name: 'worklet',
-            });
-            this.context.audioWorklet.addModule(workletUrl).then(() => {
-                this._clockNode = new AudioWorkletNode(this.context, 'clock-processor');
-                this._clockNode.connect(this.context.destination);
-                this._clockNode.port.onmessage = () => {
-                    self._tick();
-                }
-            });
+            this._clockNode = setInterval(() => self._tick(), 20);
+            // const workletUrl = new WorkerUrl(new URL('./processor.js', import.meta.url), {
+            //     name: 'worklet',
+            // });
+            // this.context.audioWorklet.addModule(workletUrl).then(() => {
+            //     this._clockNode = new AudioWorkletNode(this.context, 'clock-processor');
+            //     this._clockNode.connect(this.context.destination);
+            //     this._clockNode.port.onmessage = () => {
+            //         self._tick();
+            //     }
+            // });
         } else if (this.tickMethod === "manual") null;
         // _tick is called manually
         else throw new Error("invalid tickMethod " + this.tickMethod);
@@ -169,7 +170,7 @@ WAAClock.prototype.start = function () {
 WAAClock.prototype.stop = function () {
     if (this._started === true) {
         this._started = false;
-        this._clockNode.disconnect();
+        clearInterval(this._clockNode);
     }
 };
 
