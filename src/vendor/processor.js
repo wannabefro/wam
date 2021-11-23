@@ -9,4 +9,6 @@ class ClockProcessor extends AudioWorkletProcessor {
     }
 }
 
+console.log('registering');
+
 registerProcessor('clock-processor', ClockProcessor);

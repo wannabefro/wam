@@ -148,9 +148,8 @@ WAAClock.prototype.start = function () {
         this._events = [];
 
         if (this.tickMethod === "ScriptProcessorNode") {
-            setInterval(() => { self._tick(); }, 100);
             this.context.audioWorklet.addModule(processor).then(() => {
-                this._clockNode = new AudioWorkletNode(this.context);
+                this._clockNode = new AudioWorkletNode(this.context, 'clock-processor');
                 this._clockNode.connect(this.context.destination);
                 this._clockNode.port.onmessage = () => {
                     self._tick();
